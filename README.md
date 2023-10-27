@@ -17,5 +17,5 @@ docker run -d \
 -e TV_HOOK={yourdiscordwebhook} \
 -e TRAKT_KEY={yourtraktapikey} \
 -e TMDB_KEY={yourtmdbapikey} \
-{yourorg}/{yourcontainer}:latest
+ghcr.io/chadleeshaw/trakt_bot:latest
 ```
