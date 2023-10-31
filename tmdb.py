@@ -1,7 +1,7 @@
 import requests
 import os
 from typing import Any
-from util import get_json_key
+from util import get_json_key, type_check
 from logs import my_logger
 from discord import Embeds
 from dataclasses import dataclass
@@ -20,10 +20,11 @@ class TMDB:
   vote_average: float
 
   @classmethod
-  def from_json(cls, json):
+  def from_json(cls, json, type):
+    type, title = type_check(type)
     return cls(
       id = get_json_key(json, 'id'),
-      title = get_json_key(json, 'title'),
+      title = get_json_key(json, title),
       overview = get_json_key(json, 'overview'),
       poster_path = get_json_key(json, 'poster_path'),
       vote_average = get_json_key(json, 'vote_average'),
@@ -47,7 +48,7 @@ def tmdb_request_by_id(tmdbID: int, type: str) -> TMDB:
   else:
     LOGGER.debug("TMDB query ran successful, code {}.".format(tmdb_req.status_code))
 
-  return TMDB.from_json(tmdb_req.json())
+  return TMDB.from_json(tmdb_req.json(), type)
 
 def tmdbid_to_tmdb(idList: list, type: str) -> list[Embeds]:
   embedList= []
