@@ -3,16 +3,16 @@ from os import environ as env
 from logs import my_logger
 from dataclasses import dataclass, asdict
 
-@dataclass(slots=True)
+@dataclass
 class Thumbnail:
   url: str
 
-@dataclass(slots=True)
+@dataclass
 class Footer:
   text: str
   icon_url: str
 
-@dataclass(slots=True)
+@dataclass
 class Embeds:
   color: str
   title: str
@@ -48,7 +48,7 @@ class Embeds:
       ),
     )
 
-@dataclass(slots=True)
+@dataclass
 class Discord:
   username: str
   content: str 

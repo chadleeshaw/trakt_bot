@@ -11,7 +11,7 @@ LOGGER = my_logger(__name__)
 
 TMDB_URL = "https://www.themoviedb.org"
 
-@dataclass(slots=True)
+@dataclass
 class TMDB:
   id: int
   title: str
