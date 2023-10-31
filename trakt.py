@@ -24,7 +24,7 @@ def trakt_request(type: str, query: str) -> dict[str, Any]:
   except requests.exceptions.HTTPError as err:
     logger.error(err)
   else:
-    logger.debug("Trakt request was successful, code {}.".format(type, trakt_req.status_code))
+    logger.debug("Trakt request was successful, code {}.".format(trakt_req.status_code))
 
   return trakt_req.json()
 

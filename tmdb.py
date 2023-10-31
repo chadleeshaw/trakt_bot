@@ -15,16 +15,17 @@ TMDB_URL = "https://www.themoviedb.org"
 class TMDB:
   id: int
   title: str
+  name: str
   overview: str
   poster_path: str
   vote_average: float
 
   @classmethod
-  def from_json(cls, json, type):
-    type, title = type_check(type)
+  def from_json(cls, json):
     return cls(
       id = get_json_key(json, 'id'),
-      title = get_json_key(json, title),
+      title = get_json_key(json, 'title'),
+      name = get_json_key(json, 'name'),
       overview = get_json_key(json, 'overview'),
       poster_path = get_json_key(json, 'poster_path'),
       vote_average = get_json_key(json, 'vote_average'),
@@ -32,6 +33,7 @@ class TMDB:
 
 def tmdb_request_by_id(tmdbID: int, type: str) -> TMDB:
   key = os.environ.get("TMDB_KEY", "")
+  type, _ = type_check(type)
   headers = {
       'Authorization': f'Bearer {key}', 
       'accept': 'application/json',
@@ -48,7 +50,7 @@ def tmdb_request_by_id(tmdbID: int, type: str) -> TMDB:
   else:
     LOGGER.debug("TMDB query ran successful, code {}.".format(tmdb_req.status_code))
 
-  return TMDB.from_json(tmdb_req.json(), type)
+  return TMDB.from_json(tmdb_req.json())
 
 def tmdbid_to_tmdb(idList: list, type: str) -> list[Embeds]:
   embedList= []

@@ -2,8 +2,9 @@ from functools import reduce
 from typing import Any
 
 def get_json_key(json, *keys) -> Any:
+    o = ''
     def getter(level, key):
-        return None if level is None else level.get(key, None)
+        return o if level is o else level.get(key, o)
     return reduce(getter, keys, json)
 
 def type_check(type):
@@ -11,5 +12,5 @@ def type_check(type):
     type = type.rstrip('s')
     if type == 'show':  
         type = 'tv'
-    title = 'name'
+        title = 'name'
     return type, title

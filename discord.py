@@ -25,11 +25,11 @@ class Embeds:
   @classmethod
   def from_tmdb(cls, tmdb, type):
     imgUrl = "https://image.tmdb.org/t/p/w300_and_h450_face"
-    tmdbIcon = "https://encrypted-tbn0.gstatic.com/images?\
-      q=tbn:ANd9GcSQrUwlI-qNsiFMvIuztV_SzgjZPsnhiOT9huP7s2I3Gt-TnzSxI4NgpZ7n32uZP0oJj8c&usqp=CAU"
+    tmdbIcon = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQrUwlI-qNsiFMvIuztV_SzgjZPsnhiOT9huP7s2I3Gt-TnzSxI4NgpZ7n32uZP0oJj8c&usqp=CAU"
 
     type, title = type_check(type)
     url = imgUrl + '/' + type + '/' + str(tmdb.id)
+    score = round(tmdb.vote_average * 10, 0)
 
     return cls(
       color = '12370112',
@@ -40,7 +40,7 @@ class Embeds:
         url = f'{imgUrl}{tmdb.poster_path}',
       ),
       footer = Footer(
-        text = f'User Score: {tmdb.vote_average * 10}%',
+        text = f'User Score: {score:.0f}%',
         icon_url = tmdbIcon,
       ),
     )
@@ -52,22 +52,19 @@ class Discord:
   embeds: list[Embeds]
 
 def send_discord(embedList: list[Embeds], type: str) -> None:
-  tmdbIcon = "https://encrypted-tbn0.gstatic.com/images?\
-        q=tbn:ANd9GcSQrUwlI-qNsiFMvIuztV_SzgjZPsnhiOT9huP7s2I3Gt-TnzSxI4NgpZ7n32uZP0oJj8c&usqp=CAU"
   logger = my_logger(__name__)
-  movieHook = env.get("movieHook", "")
-  tvVHook =env.get("tvVHook", "")
-  color = "12370112"
+  movieHook = env.get("MOVIE_HOOK", "")
+  tvHook =env.get("TV_HOOK", "")
   webHook = movieHook
   if type == 'shows':
-    webHook = tvVHook
+    webHook = tvHook
 
   discord = Discord(
     username = f"Top 10 {type.title()}",
     content = "",
     embeds = embedList
   )
-    
+
   discord_req = requests.post(webHook, json=asdict(discord))
 
   try:
