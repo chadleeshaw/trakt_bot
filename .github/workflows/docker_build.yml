@@ -8,6 +8,7 @@ on:
 jobs:
   push-to-ghcr:
     name: Push Docker image to GHCR
+    permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout GitHub Action'
