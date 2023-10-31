@@ -4,7 +4,7 @@ from time import sleep
 from os import getenv
 from sys import argv
 from trakt import trakt_trending
-from tmdb import top_ten
+from tmdb import tmdbid_to_tmdb
 from discord import send_discord
 from logs import my_logger
 
@@ -25,13 +25,13 @@ for var in envVars:
 def movies(movies='movies'):
   logger.debug(f'Running Top Ten {movies.title()}')
   trakt = trakt_trending(movies)
-  tmdb = top_ten(trakt, movies)
+  tmdb = tmdbid_to_tmdb(trakt, movies)
   send_discord(tmdb, movies)
 
 def shows(shows='shows'):
   logger.debug(f'Running Top Ten {shows.title()}')
   trakt = trakt_trending(shows)
-  tmdb = top_ten(trakt, shows)
+  tmdb = tmdbid_to_tmdb(trakt, shows)
   send_discord(tmdb, shows)
 
 def parse_args(args):
