@@ -24,14 +24,14 @@ def trakt_request(type: str, query: str) -> dict[str, Any]:
   except requests.exceptions.HTTPError as err:
     logger.error(err)
   else:
-    logger.debug("Top 10 {} pulled succesfully, code {}.".format(type, trakt_req.status_code))
+    logger.debug("Trakt request was successful, code {}.".format(trakt_req.status_code))
 
   return trakt_req.json()
 
 def trakt_trending(type: str) -> list[int]:
-  top_ten = []
+  tmdbIDS = []
   trendDict = trakt_request(type, '/trending')
   type = type.rstrip('s')
   for trend in trendDict:
-    top_ten.append(get_json_key(trend, type, 'ids', 'tmdb'))
-  return top_ten
+    tmdbIDS.append(get_json_key(trend, type, 'ids', 'tmdb'))
+  return tmdbIDS
