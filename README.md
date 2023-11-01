@@ -12,6 +12,8 @@ Discord Webhook
 Usage:
 ```
 docker run -d \
+-e MOVIE_TIME=12:00 \ #Optional
+-e TV_TIME=12:00 \ #Optional
 -e TZ=America/{yourtimezone} \
 -e MOVIE_HOOK={yourdiscordwebhook} \
 -e TV_HOOK={yourdiscordwebhook} \

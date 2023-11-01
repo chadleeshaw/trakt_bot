@@ -43,12 +43,20 @@ def parse_args(args):
 def main(args):
   args = parse_args(args)
   logger.info("Starting Bot...")
+
   if args.now:
     movies()
     shows()
   else:
-    schedule.every().day.at("12:00").do(movies)
-    schedule.every().day.at("12:05").do(shows)
+    movietime, tvtime = "12:00"
+
+    if getenv('MOVIE_TIME'):
+      movetime = getenv('MOVIE_TIME')
+    if getenv('TV_TIME'):
+      movetime = getenv('TV_TIME')
+
+    schedule.every().day.at(movietime).do(movies)
+    schedule.every().day.at(tvtime).do(shows)
 
     while True:
         schedule.run_pending()
