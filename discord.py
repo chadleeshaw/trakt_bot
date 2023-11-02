@@ -24,11 +24,12 @@ class Embeds:
 
   @classmethod
   def from_tmdb(cls, tmdb, type):
+    tmdbUrl = "https://tmdb.org"
     imgUrl = "https://image.tmdb.org/t/p/w300_and_h450_face"
     tmdbIcon = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQrUwlI-qNsiFMvIuztV_SzgjZPsnhiOT9huP7s2I3Gt-TnzSxI4NgpZ7n32uZP0oJj8c&usqp=CAU"
 
     type, title = type_check(type)
-    url = imgUrl + '/' + type + '/' + str(tmdb.id)
+    url = tmdbUrl + '/' + type + '/' + str(tmdb.id)
     score = round(tmdb.vote_average * 10, 0)
 
     return cls(
