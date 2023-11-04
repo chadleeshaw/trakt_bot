@@ -1,5 +1,4 @@
 import requests
-from typing import Self
 from os import environ as env
 from logs import my_logger
 from util import type_check
@@ -24,7 +23,7 @@ class Embeds:
   footer: Footer
 
   @classmethod
-  def from_tmdb(cls: Self, tmdb: object, type: str) -> Self:
+  def from_tmdb(cls: classmethod, tmdb: object, type: str) -> object:
     tmdbUrl = "https://tmdb.org"
     imgUrl = "https://image.tmdb.org/t/p/w300_and_h450_face"
     tmdbIcon = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQrUwlI-qNsiFMvIuztV_SzgjZPsnhiOT9huP7s2I3Gt-TnzSxI4NgpZ7n32uZP0oJj8c&usqp=CAU"

@@ -1,6 +1,6 @@
 import requests
 import os
-from typing import Any, Self
+from typing import Any
 from util import get_json_key, type_check
 from logs import my_logger
 from discord import Embeds
@@ -21,7 +21,7 @@ class TMDB:
   vote_average: float
 
   @classmethod
-  def from_json(cls: Self, json: dict) -> Self:
+  def from_json(cls: classmethod, json: dict) -> object:
     return cls(
       id = get_json_key(json, 'id'),
       title = get_json_key(json, 'title'),
