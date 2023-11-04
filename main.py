@@ -48,7 +48,7 @@ def main(args):
     movies()
     shows()
   else:
-    movietime, tvtime = "12:00"
+    movietime, tvtime = "12:00", "12:01"
 
     if getenv('MOVIE_TIME'):
       movetime = getenv('MOVIE_TIME')
