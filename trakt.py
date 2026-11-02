@@ -8,7 +8,7 @@ from logs import my_logger
 logger = my_logger(__name__)
 TRAKT_KEY = os.environ.get("TRAKT_KEY")
 
-def trakt_request(type: str, query: str) -> dict[str, Any]:
+def trakt_request(type: str, query: str) -> list[dict[str, Any]]:
   headers = {
         "trakt-api-key": TRAKT_KEY, 
         "content-type": "application/json",
@@ -16,7 +16,8 @@ def trakt_request(type: str, query: str) -> dict[str, Any]:
   }
   trakt_req = requests.get(
     url='https://api.trakt.tv/' + type + query,
-    headers=headers
+    headers=headers,
+    timeout=30
   )
 
   try:
@@ -30,8 +31,10 @@ def trakt_request(type: str, query: str) -> dict[str, Any]:
 
 def trakt_trending(type: str) -> list[int]:
   tmdbIDS = []
-  trendDict = trakt_request(type, '/trending')
+  trendDict = trakt_request(type, '/trending?limit=10')
   type = type.rstrip('s')
   for trend in trendDict:
-    tmdbIDS.append(get_json_key(trend, type, 'ids', 'tmdb'))
-  return tmdbIDS
+    tmdb_id = get_json_key(trend, type, 'ids', 'tmdb')
+    if tmdb_id:
+      tmdbIDS.append(tmdb_id)
+  return tmdbIDS[:10]

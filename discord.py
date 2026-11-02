@@ -2,6 +2,7 @@ import requests
 from os import environ as env
 from logs import my_logger
 from util import type_check
+from typing import Any
 from dataclasses import dataclass, asdict
 
 @dataclass
@@ -23,7 +24,7 @@ class Embeds:
   footer: Footer
 
   @classmethod
-  def from_tmdb(cls: classmethod, tmdb: object, type: str) -> object:
+  def from_tmdb(cls, tmdb: Any, type: str) -> "Embeds":
     tmdbUrl = "https://tmdb.org"
     imgUrl = "https://image.tmdb.org/t/p/w300_and_h450_face"
     tmdbIcon = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQrUwlI-qNsiFMvIuztV_SzgjZPsnhiOT9huP7s2I3Gt-TnzSxI4NgpZ7n32uZP0oJj8c&usqp=CAU"
@@ -63,10 +64,10 @@ def send_discord(embedList: list[Embeds], type: str) -> None:
   discord = Discord(
     username = f"Top 10 {type.title()}",
     content = "",
-    embeds = embedList
+    embeds = embedList[:10]
   )
 
-  discord_req = requests.post(webHook, json=asdict(discord))
+  discord_req = requests.post(webHook, json=asdict(discord), timeout=30)
 
   try:
     discord_req.raise_for_status()

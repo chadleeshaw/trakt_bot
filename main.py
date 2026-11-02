@@ -1,13 +1,14 @@
-import schedule
 import argparse
-from time import sleep
 from os import getenv
 from sys import argv
-from trakt import trakt_trending
-from tmdb import tmdbid_to_tmdb
+from time import sleep
+
+import schedule  # type: ignore[import-untyped]
+
 from discord import send_discord
 from logs import my_logger
-
+from tmdb import tmdbid_to_tmdb
+from trakt import trakt_trending
 
 logger = my_logger(__name__)
 
@@ -20,7 +21,7 @@ envVars = (
 
 for var in envVars:
     if not getenv(var):
-        raise Exception(f"Missing env variable: {var}")
+        raise RuntimeError(f"Missing env variable: {var}")
 
 def movies(movies='movies'):
   logger.debug(f'Running Top Ten {movies.title()}')
@@ -51,9 +52,9 @@ def main(args):
     movietime, tvtime = "12:00", "12:01"
 
     if getenv('MOVIE_TIME'):
-      movetime = getenv('MOVIE_TIME')
+      movietime = getenv('MOVIE_TIME')
     if getenv('TV_TIME'):
-      movetime = getenv('TV_TIME')
+      tvtime = getenv('TV_TIME')
 
     schedule.every().day.at(movietime).do(movies)
     schedule.every().day.at(tvtime).do(shows)
